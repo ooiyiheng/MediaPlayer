@@ -32,5 +32,6 @@
             </Slider.RenderTransform>
         </Slider>
         <Slider x:Name="sliProgress" HorizontalAlignment="Left" Height="15" Margin="151,350,0,0" VerticalAlignment="Top" Width="549" PreviewMouseLeftButtonUp="sliProgress_PreviewMouseLeftButtonUp"/>
+        <TextBox x:Name="txtTime" HorizontalAlignment="Left" Height="34" Margin="21,368,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="114"/>
     </Grid>
 </Window>
