@@ -14,12 +14,23 @@
                 <GradientStop Color="Black" Offset="0.889"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <MediaElement x:Name="MedShow" HorizontalAlignment="Left" Height="278" Margin="75,70,0,0" VerticalAlignment="Top" Width="640" OpacityMask="Black"/>
-        <Button x:Name="btnPlay" HorizontalAlignment="Left" Height="47" Margin="151,369,0,0" VerticalAlignment="Top" Width="105" FontFamily="Arial Black" FontSize="16" Background="White" Content="PLAY"/>
-        <Button x:Name="btnPause" Content="PAUSE" HorizontalAlignment="Left" Height="47" Margin="278,369,0,0" VerticalAlignment="Top" Width="105" FontFamily="Arial Black" FontSize="16" Background="White"/>
-        <Button x:Name="btnStop" Content="STOP" HorizontalAlignment="Left" Height="47" Margin="411,369,0,0" VerticalAlignment="Top" Width="106" FontFamily="Arial Black" FontSize="16" Background="White"/>
-        <Button x:Name="btnExit" HorizontalAlignment="Left" Height="47" Margin="538,369,0,0" VerticalAlignment="Top" Width="106" Foreground="Black" FontFamily="Arial Black" FontSize="16" Background="White" Content="EXIT"/>
+        <Button x:Name="btnPlay" HorizontalAlignment="Left" Height="39" Margin="179,381,0,0" VerticalAlignment="Top" Width="105" FontFamily="Arial Black" FontSize="16" Background="White" Content="PLAY" Click="btnPlay_Click"/>
+        <Button x:Name="btnPause" Content="PAUSE" HorizontalAlignment="Left" Height="39" Margin="306,381,0,0" VerticalAlignment="Top" Width="105" FontFamily="Arial Black" FontSize="16" Background="White" Click="btnPause_Click"/>
+        <Button x:Name="btnStop" Content="STOP" HorizontalAlignment="Left" Height="39" Margin="439,381,0,0" VerticalAlignment="Top" Width="106" FontFamily="Arial Black" FontSize="16" Background="White" Click="btnStop_Click"/>
+        <Button x:Name="btnExit" HorizontalAlignment="Left" Height="39" Margin="566,381,0,0" VerticalAlignment="Top" Width="106" Foreground="Black" FontFamily="Arial Black" FontSize="16" Background="White" Content="EXIT" Click="btnExit_Click"/>
         <Button x:Name="btunOpenFile" Content="OPEN" HorizontalAlignment="Left" Height="31" Margin="609,21,0,0" VerticalAlignment="Top" Width="106" Foreground="Black" FontFamily="Arial Black" FontSize="16" Background="White" Click="btunOpenFile_Click"/>
         <TextBlock x:Name="txtFilePath" HorizontalAlignment="Left" Height="40" Margin="75,16,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="516" Foreground="White" Background="White" FontFamily="Arial Black"/>
+        <MediaElement x:Name="MedShow" HorizontalAlignment="Left" Height="258" Margin="151,76,0,0" VerticalAlignment="Top" Width="546" MediaOpened="MedShow_MediaOpened"/>
+        <Slider x:Name="sliVolume" HorizontalAlignment="Left" Height="19" Margin="-21,0,0,0" VerticalAlignment="Center" Width="190" RenderTransformOrigin="0.5,0.5" LargeChange="0.05" Maximum="1" Value="0.5" ValueChanged="sliVolume_ValueChanged">
+            <Slider.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-90.515"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Slider.RenderTransform>
+        </Slider>
+        <Slider x:Name="sliProgress" HorizontalAlignment="Left" Height="15" Margin="151,350,0,0" VerticalAlignment="Top" Width="549" PreviewMouseLeftButtonUp="sliProgress_PreviewMouseLeftButtonUp"/>
     </Grid>
 </Window>

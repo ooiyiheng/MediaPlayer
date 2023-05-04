@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using System.Windows.Threading; 
 namespace MediaPlayer
 {
     /// <summary>
@@ -24,13 +24,14 @@ namespace MediaPlayer
         {
             InitializeComponent();
         }
-
+        TimeSpan TimePosition; // 宣告一個時間間格
+        DispatcherTimer timer = null; // 宣告一個「空的」計時器
         private void btunOpenFile_Click(object sender, RoutedEventArgs e)
         {
             // 檔案開啟物件
             var fd = new Microsoft.Win32.OpenFileDialog();
             // 設定檔案過濾
-            fd.Filter = "音訊檔案(*.mp3,*.3gp,*.wma)|*.mp3; *.3gp; *.wma|影片檔案(*.mp4, *.avi, *.mpeg, *.wmv)|*.mp4; *.avi; *.mpeg; *.wmv|所有檔案(*.*)|*.*";
+            fd.Filter = "影片檔案(*.mp4, *.avi, *.mpeg, *.wmv)|*.mp4; *.avi; *.mpeg; *.wmv|所有檔案(*.*)|*.*";
             //fd.Filter = "MP3(*.mp3)|*.mp3|MP4(*.mp4)|*.mp4|3GP(*.3gp)|*.3gp|WMA(*.wma)|*.wma|MOV(*.mov)|*.mov|AVI(*.avi)|*.avi|WMV(*.wmv)|*.wmv|MPEG(*.mpeg)|*.mpeg|所有檔案(*.*)|*.*";
             // 設定預設開啟檔案位置，設定為桌面
             fd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -51,6 +52,63 @@ namespace MediaPlayer
                 // 將影音進行播放
                 MedShow.LoadedBehavior = MediaState.Play;
             }
+        }
+
+        private void btnPlay_Click(object sender, RoutedEventArgs e)
+        {
+            // 設定影音播放狀態為「Play」，將狀態設定到目前的讀取行為
+            MedShow.LoadedBehavior = MediaState.Play;
+        }
+
+        private void btnPause_Click(object sender, RoutedEventArgs e)
+        {
+            // 設定影音播放狀態為「Pause」，將狀態設定到目前的讀取行為
+            MedShow.LoadedBehavior = MediaState.Pause;
+        }
+
+        private void btnStop_Click(object sender, RoutedEventArgs e)
+        {
+            // 設定影音播放狀態為「Stop」，將狀態設定到目前的讀取行為
+            MedShow.LoadedBehavior = MediaState.Stop;
+        }
+
+        private void btnExit_Click(object sender, RoutedEventArgs e)
+        {
+            Environment.Exit(0); // 關閉整個程式的指令
+        }
+
+        private void sliVolume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            MedShow.Volume = sliVolume.Value; // 設定聲音大小
+                                              //txtFilePath.Text = MedShow.Volume.ToString();
+        }
+
+        private void MedShow_MediaOpened(object sender, RoutedEventArgs e)
+        {
+            // 取得所開啟的影片時間長度
+            TimePosition = MedShow.NaturalDuration.TimeSpan;
+            // 重新設定影片播放滑桿
+            sliProgress.Minimum = 0;
+            sliProgress.Maximum = TimePosition.TotalMilliseconds; //最大值設定為影片的總毫秒數
+
+            // 設定計時器
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1); // 這個計時器設定每一個刻度為1秒
+            timer.Tick += new EventHandler(timer_tick); //每一個時間刻度設定一個小程序timer_tick
+            timer.Start(); // 啟動這個計時器
+        }
+        private void timer_tick(object sender, EventArgs e)
+        {
+            // 小程序，更新目前影片播放進度
+            sliProgress.Value = MedShow.Position.TotalMilliseconds;
+        }
+
+        private void sliProgress_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            int SliderValue = (int)sliProgress.Value; // 還記得轉型嗎？
+
+            TimeSpan ts = new TimeSpan(0, 0, 0, 0, SliderValue); //將滑桿的數值改變成時間間格的資料形式
+            MedShow.Position = ts; // 調整影片播放進度到新的時間
         }
     }
 }
